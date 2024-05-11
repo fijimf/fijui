@@ -1,0 +1,9 @@
+<div class="gameAnalysis">
+    <!-- <p>game-analysis works! {{game?.homeSnapshot?.team?.name}}</p> -->
+
+
+    <app-team-snapshot [teamSnapshot]="game?.homeSnapshot"></app-team-snapshot>
+    <app-head2headplot [game]="game"></app-head2headplot>
+    <app-team-snapshot [teamSnapshot]="game?.awaySnapshot"></app-team-snapshot>
+
+</div>

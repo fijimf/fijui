@@ -1,0 +1,32 @@
+#plot {
+    width: 100%;
+    height: 100%;
+    background-color: aliceblue;
+}
+
+.h2hTitle {
+
+    width: 100%;
+    display: grid;
+    grid-template-columns: 20% 30% 7% 30% 7%;
+    align-items: top;
+
+
+    font-family: var(--mat-card-title-text-font);
+    line-height: var(--mat-card-title-text-line-height);
+    font-size: var(--mat-card-title-text-size);
+    letter-spacing: var(--mat-card-title-text-tracking);
+    font-weight: var(--mat-card-title-text-weight);
+}
+
+.h2hTitle>div {
+    text-align: center;
+    font-size: 1;
+
+    padding: 5px;
+}
+
+.tooltip {
+    font-family: 'Roboto', sans;
+    font-size: 9px;
+}

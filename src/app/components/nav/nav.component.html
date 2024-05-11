@@ -1,1 +1,5 @@
-<p>nav works!</p>
+<div>
+    <p>
+        <a *ngFor="let link of links" href="{{link.path}}">{{link.label}}</a>
+    </p>
+</div>

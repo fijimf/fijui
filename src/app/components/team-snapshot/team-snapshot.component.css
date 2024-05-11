@@ -1,0 +1,9 @@
+[mat-card-avatar] {
+    /* Your custom styles here */
+    border-radius: 5%;
+}
+
+
+.team-card {
+    border-width: 12px;
+}

@@ -9,15 +9,15 @@ html {
 }
 
 body {
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     height: 100%;
 }
 
 .grid {
     display: grid;
-    grid-template-rows: 6rem 5rem auto 5rem;
-    grid-template-columns: 20% auto 20%;
+    grid-template-rows: 3.5rem 3.5rem max-content 5rem;
+        grid-template-columns: 10% auto;
     font-size: 1.5rem;
     height: 100%;
 }
@@ -37,33 +37,32 @@ body {
 
 nav,
 footer {
-    background: #F6C356;
-    grid-column: 1 / 4;
+    grid-column: 1 / 3;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 header {
-    grid-column: span 3;
+    grid-column: 1 / 3;
     border-bottom: 3px grey solid;
 }
 
 nav {
-    background: #AAEC8A;
-}
 
+}
 aside,
 main {
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
+    
 }
 
 aside {
-    background: #99C2FE;
+    grid-column: 1 / 2;
 }
 
 main {
-    background: #B881FF;
+    grid-column: 2 / 3;
 }

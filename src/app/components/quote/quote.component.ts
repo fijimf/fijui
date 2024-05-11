@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { QuoteServiceService } from '../../services/quote-service.service';
+import { QuoteService } from '../../services/quote.service';
 import { Inject } from '@angular/core';
 import { NgIf } from '@angular/common';
 
@@ -13,7 +13,7 @@ import { NgIf } from '@angular/common';
 export class QuoteComponent implements OnInit {
   quote: any;
 
-  constructor(@Inject(QuoteServiceService) private quoteService: QuoteServiceService) { }
+  constructor(@Inject(QuoteService) private quoteService: QuoteService) { }
 
   ngOnInit() {
     this.quoteService.getQuote().subscribe(data => {

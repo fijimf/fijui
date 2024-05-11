@@ -1,0 +1,44 @@
+<div>
+    <mat-card class="team-card" [style.borderColor]="'#'+teamSnapshot?.team?.color">
+        <mat-card-header>
+            <div mat-card-avatar>
+                <img mat-card-avatar src={{teamSnapshot?.team?.logo}} alt={{teamSnapshot?.team?.key}}>
+            </div>
+            <mat-card-title>{{teamSnapshot?.team?.name}}</mat-card-title>
+            <mat-card-subtitle>{{teamSnapshot?.team?.conference}}</mat-card-subtitle>
+        </mat-card-header>
+        <!-- <img mat-card-image src={{teamSnapshot?.team?.logo}} alt={{teamSnapshot?.team?.key}}> -->
+        <mat-card-content>
+            <mat-list>
+
+                <mat-list-item>
+                    <span matListItemTitle>Record</span>
+                    <span matListItemLine>{{teamSnapshot?.record?.wins}} - {{teamSnapshot?.record?.losses}}
+                    </span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>Last 5</span>
+                    <span matListItemLine>{{teamSnapshot?.last5?.wins}} - {{teamSnapshot?.last5?.losses}}
+                    </span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>Points for</span>
+                    <span matListItemLine>&mu; = {{teamSnapshot?.pointsForAvg | number:'1.2-2'}}&nbsp;&sigma; =
+                        {{teamSnapshot?.pointsForStdDev | number:'1.2-2'}}
+                    </span> <span matListItemLine>IQR = [ {{teamSnapshot?.pointsForQ1 |
+                        number:'1.2-2'}},&nbsp;{{teamSnapshot?.pointsForQ3 | number:'1.2-2'}}]
+                    </span>
+                </mat-list-item>
+                <mat-list-item>
+                    <span matListItemTitle>Points against</span>
+                    <span matListItemLine>&mu; = {{teamSnapshot?.pointsAgainstAvg | number:'1.2-2'}}&nbsp;&sigma;
+                        =
+                        {{teamSnapshot?.pointsAgainstStdDev | number:'1.2-2'}}
+                    </span> <span matListItemLine>IQR = [ {{teamSnapshot?.pointsAgainstQ1 |
+                        number:'1.2-2'}},&nbsp;{{teamSnapshot?.pointsAgainstQ3 | number:'1.2-2'}}]
+                    </span>
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class QuoteServiceService {
+export class QuoteService {
 
   private apiUrl = 'http://localhost:8080';
 
