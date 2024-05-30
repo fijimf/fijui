@@ -14,8 +14,8 @@ export class Head2headplotComponent {
   @Input() game!: GameSnapshot | undefined;
   ngOnChanges(changes: SimpleChanges) {
     if (changes['game'] && changes['game'].currentValue) {
-      var margin = { top: 20, right: 30, bottom: 30, left: 60 },
-        width = 460 - margin.left - margin.right,
+      var margin = { top: 20, right: 30, bottom: 80, left: 110 },
+        width = 440 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
       // append the svg object to the body of the page
@@ -35,14 +35,14 @@ export class Head2headplotComponent {
       svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
-
+      var xScalefactor = width / 100;
       // Add Y axis
       var y = d3.scaleLinear()
         .domain([20, 120])
         .range([height, 0]);
       svg.append("g")
         .call(d3.axisLeft(y));
-
+      var yScalefactor = height / 100;
       // Add top & right axis
       svg.append("g")
         .call(d3.axisTop(x));
@@ -50,6 +50,7 @@ export class Head2headplotComponent {
         .attr("transform", "translate(" + width + " ,0)")
         .call(d3.axisRight(y));
 
+      addAxesLabels(this.game);
       //Add over/under line
       addOverUnderLine(this.game);
 
@@ -68,10 +69,13 @@ export class Head2headplotComponent {
 
     function addTeamStats(team: TeamSnapshot | undefined, isHome: boolean = true) {
       if (team == undefined) return;
-      var pts = [{ x: team.pointsForAvg, y: team.pointsAgainstAvg }];
+      var teamPoint = (isHome) ?
+        [{ x: team.pointsForAvg, y: team.pointsAgainstAvg }] :
+        [{ x: team.pointsAgainstAvg, y: team.pointsForAvg }];
+
       svg.append("g")
         .selectAll("dot")
-        .data(pts)
+        .data(teamPoint)
         .enter()
         .append("circle")
         .attr("cx", function (d) { return x(d.x); })
@@ -79,44 +83,55 @@ export class Head2headplotComponent {
         .attr("r", 3)
         .style("fill", "#" + team.team.color);
 
-      var lns = isHome ?
-        [{ x: [team.pointsForQ1, team.pointsForQ3], y: [team.pointsAgainstAvg, team.pointsAgainstAvg] }]
-        : [{ x: [team.pointsForAvg, team.pointsForAvg], y: [team.pointsAgainstQ1, team.pointsAgainstQ3] }];
+      var pfLine = isHome ? [{ p1: { x: team.pointsForQ1, y: team.pointsAgainstAvg }, p2: { x: team.pointsForQ3, y: team.pointsAgainstAvg } },
+      { p1: { x: team.pointsForQ1, y: team.pointsAgainstAvg - 1.5 }, p2: { x: team.pointsForQ1, y: team.pointsAgainstAvg + 1.5 } },
+      { p1: { x: team.pointsForQ3, y: team.pointsAgainstAvg - 1.5 }, p2: { x: team.pointsForQ3, y: team.pointsAgainstAvg + 1.5 } }
+      ] :
+        [{ p1: { x: team.pointsAgainstAvg, y: team.pointsForQ1 }, p2: { x: team.pointsAgainstAvg, y: team.pointsForQ3 } },
+        { p1: { x: team.pointsAgainstAvg - 1.5, y: team.pointsForQ1 }, p2: { x: team.pointsAgainstAvg + 1.5, y: team.pointsForQ1 } },
+        { p1: { x: team.pointsAgainstAvg - 1.5, y: team.pointsForQ3 }, p2: { x: team.pointsAgainstAvg + 1.5, y: team.pointsForQ3 } }
+        ];
       svg.append("g")
         .selectAll("qline")
-        .data(lns)
+        .data(pfLine)
         .enter()
         .append("line")
-        .attr("x1", function (d) { return x(d.x[0]) })
-        .attr("x2", function (d) { return x(d.x[1]) })
-        .attr("y1", function (d) { return y(d.y[0]) })
-        .attr("y2", function (d) { return y(d.y[1]) })
+        .attr("x1", function (d) { return x(d.p1.x) })
+        .attr("x2", function (d) { return x(d.p2.x) })
+        .attr("y1", function (d) { return y(d.p1.y) })
+        .attr("y2", function (d) { return y(d.p2.y) })
         .attr("stroke", "#" + team.team.color);
 
-      var lns = isHome ?
-        [{ x: [team.pointsAgainstQ1, team.pointsAgainstQ3], y: [team.pointsForAvg, team.pointsForAvg] }]
-        : [{ x: [team.pointsForAvg, team.pointsForAvg], y: [team.pointsAgainstQ1, team.pointsAgainstQ3] }];
+      var pfLine = isHome ? [{ p1: { x: team.pointsForAvg, y: team.pointsAgainstQ1 }, p2: { x: team.pointsForAvg, y: team.pointsAgainstQ3 } },
+      { p1: { x: team.pointsForAvg - 1.5, y: team.pointsAgainstQ1 }, p2: { x: team.pointsForAvg + 1.5, y: team.pointsAgainstQ1 } },
+      { p1: { x: team.pointsForAvg - 1.5, y: team.pointsAgainstQ3 }, p2: { x: team.pointsForAvg + 1.5, y: team.pointsAgainstQ3 } }
+      ] :
+        [{ p1: { x: team.pointsAgainstQ1, y: team.pointsForAvg }, p2: { x: team.pointsAgainstQ3, y: team.pointsForAvg } },
+        { p1: { x: team.pointsAgainstQ1, y: team.pointsForAvg - 1.5 }, p2: { x: team.pointsAgainstQ1, y: team.pointsForAvg + 1.5 } },
+        { p1: { x: team.pointsAgainstQ3, y: team.pointsForAvg - 1.5 }, p2: { x: team.pointsAgainstQ3, y: team.pointsForAvg + 1.5 } }
+        ];
+
       svg.append("g")
         .selectAll("qline")
-        .data(lns)
+        .data(pfLine)
         .enter()
         .append("line")
-        .attr("x1", function (d) { return x(d.x[0]) })
-        .attr("x2", function (d) { return x(d.x[1]) })
-        .attr("y1", function (d) { return y(d.y[0]) })
-        .attr("y2", function (d) { return y(d.y[1]) })
+        .attr("x1", function (d) { return x(d.p1.x) })
+        .attr("x2", function (d) { return x(d.p2.x) })
+        .attr("y1", function (d) { return y(d.p1.y) })
+        .attr("y2", function (d) { return y(d.p2.y) })
         .attr("stroke", "#" + team.team.color);
 
 
       svg.append("g")
         .selectAll("conf95")
-        .data([{ x: team.pointsForAvg, y: team.pointsAgainstAvg, rx: team.c95majorAxis, ry: team.c95minorAxis, r: team.c95angle }])
+        .data([{ x: teamPoint[0].x, y: teamPoint[0].y, rx: team.c95majorAxis, ry: team.c95minorAxis, r: team.c95angle }])
         .enter()
         .append("ellipse")
         .attr("cx", function (d) { return x(d.x); })
         .attr("cy", function (d) { return y(d.y); })
-        .attr("rx", function (d) { return d.x; })
-        .attr("ry", function (d) { return d.y; })
+        .attr("rx", function (d) { return (1.0 / xScalefactor) * d.x; })
+        .attr("ry", function (d) { return (1.0 / yScalefactor) * d.y; })
         .attr("transform", function (d) { return "rotate(" + d.r + "," + x(d.x) + "," + y(d.y) + ")"; })
         .style("fill", "#" + team.team.color)
         .style("fill-opacity", 0.25)
@@ -146,14 +161,13 @@ export class Head2headplotComponent {
         .append("circle")
         .attr("cx", function (d) { return x(d.x); })
         .attr("cy", function (d) { return y(d.y); })
-        .attr("r", 5)
-        .style("fill", "#9f9")
+        .attr("r", 3)
+        .style("fill", "black")
         .on("mouseenter", (evt, d) => {
           const [mx, my] = d3.pointer(evt);
-          const tooltipText = title;
 
           tooltip
-            .attr("transform", `translate(${mx}, ${my})`)
+            .attr("transform", `translate(${mx + 5}, ${my + 5})`)
             .selectAll("tspan")
             .data(d.title)
             .join("tspan")
@@ -175,18 +189,20 @@ export class Head2headplotComponent {
         .selectAll("dot")
         .data(pts)
         .enter()
-        .append("circle")
-        .attr("cx", function (d) { return x(d.x); })
-        .attr("cy", function (d) { return y(d.y); })
-        .attr("r", 5)
+        .append("rect")
+        .attr("x", function (d) { return x(d.x) - 3; })
+        .attr("y", function (d) { return y(d.y) - 3; })
+        .attr("width", 6)
+        .attr("height", 6)
         .style("stroke", "black")
-        .style("fill", "gray");
+        .style("fill", "none");
     }
 
 
     function addSpreadLine(game: GameSnapshot | undefined = undefined) {
       var h = game?.spread ?? 0;
       var pts = spreadLineDef(h, { min: 20, max: 120 });
+
       svg.append("g")
         .append("line")
         .attr("x1", x(pts[0].x))
@@ -194,6 +210,34 @@ export class Head2headplotComponent {
         .attr("y1", y(pts[0].y))
         .attr("y2", y(pts[1].y))
         .attr("stroke", "black");
+
+      svg.append("g")
+        .append("text")
+        .attr("x", x(pts[1].x))
+        .attr("y", y(pts[1].y))
+        .attr("text-anchor", "end")
+        .attr("alignment-baseline", "alphabetic")
+        .attr("dy", "-.3em")
+        .attr("dx", "-2em")
+        .attr("transform", "rotate(-45, " + x(pts[1].x) + "," + y(pts[1].y) + ")")
+        .style("font-family", "Roboto")
+        .style("font-size", "10px")
+        .style("font-weight", "400")
+        .text(game?.homeSnapshot.team.name + "+" + h.toFixed(1));
+
+      svg.append("g")
+        .append("text")
+        .attr("x", x(pts[1].x))
+        .attr("y", y(pts[1].y))
+        .attr("text-anchor", "end")
+        .attr("alignment-baseline", "hanging")
+        .attr("dy", "+.3em")
+        .attr("dx", "-2em")
+        .attr("transform", "rotate(-45, " + x(pts[1].x) + "," + y(pts[1].y) + ")")
+        .style("font-family", "Roboto")
+        .style("font-size", "10px")
+        .style("font-weight", "400")
+        .text(game?.awaySnapshot.team.name + "-" + h.toFixed(1));
     }
 
     function spreadLineDef(spread: number, range: { min: number, max: number }) {
@@ -225,5 +269,28 @@ export class Head2headplotComponent {
         }
       }
     }
+    function addAxesLabels(game: GameSnapshot | undefined) {
+      svg.append("g")
+        .append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.top + 20)
+        .attr("text-anchor", "middle")
+        .style("font-family", "Roboto")
+        .style("font-size", "24px")
+        .style("font-weight", "700")
+        .text(game?.homeSnapshot?.team?.name + "  " + game?.homeScore.toString());
+      svg.append("g")
+        .append("text")
+        .attr("x", 0)
+        .attr("y", (height / 2) - 30)
+        .attr("transform", "rotate(-90, 0, " + height / 2 + ")")
+        .attr("text-anchor", "middle")
+        .style("font-family", "Roboto")
+        .style("font-size", "24px")
+        .style("font-weight", "700")
+        .text(game?.awaySnapshot?.team?.name + "  " + game?.awayScore.toString());
+    }
+
   }
 }
+
