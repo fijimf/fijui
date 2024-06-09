@@ -1,0 +1,10 @@
+<p>SEASONS</p>
+
+<div *ngFor="let season of seasons">
+    <p><a>{{ season.year }}</a></p>
+    <a routerLink="['/season', season.year]">{{ season.year }}</a>
+    <p>{{ season.games }} {{ season.firstGame }} - {{season.lastGame}}</p>
+    <p>{{ season.teams}}</p>
+    <p>{{ season.conferences }}</p>
+    <p>{{ season.lastUpdated }}</p>
+</div>

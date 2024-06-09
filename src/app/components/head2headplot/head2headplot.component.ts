@@ -211,6 +211,8 @@ export class Head2headplotComponent {
         .attr("y2", y(pts[1].y))
         .attr("stroke", "black");
 
+      const hSpreadTxt = h < 0 ? game?.homeSnapshot.team.name + h.toFixed(1) :
+        game?.homeSnapshot.team.name + "+" + h.toFixed(1);
       svg.append("g")
         .append("text")
         .attr("x", x(pts[1].x))
@@ -223,8 +225,9 @@ export class Head2headplotComponent {
         .style("font-family", "Roboto")
         .style("font-size", "10px")
         .style("font-weight", "400")
-        .text(game?.homeSnapshot.team.name + "+" + h.toFixed(1));
-
+        .text(hSpreadTxt);
+      const aSpreadTxt = h < 0 ? game?.awaySnapshot.team.name + "+" + -h.toFixed(1) :
+        game?.awaySnapshot.team.name + h.toFixed(1);
       svg.append("g")
         .append("text")
         .attr("x", x(pts[1].x))

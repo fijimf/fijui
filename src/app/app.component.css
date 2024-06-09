@@ -59,10 +59,12 @@ main {
     
 }
 
-aside {
+/* aside {
     grid-column: 1 / 2;
 }
 
+*/
+
 main {
-    grid-column: 2 / 3;
+    grid-column: 1 / 3;
 }

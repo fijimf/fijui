@@ -2,8 +2,12 @@
 
 .deepfij-header {
     background-color: white;
+    background-image: url(http://localhost:8080/css/img/deepfij-ted2.jpg);
+        background-position: 50% 64%;
+        background-size: cover;
+        border-bottom: #333 5px solid;
     color: #333;
     text-align: center;
-    padding: 0;
+    padding: 1.5rem 0rem 1.5rem 1rem;
     font-family: 'Protest Riot', sans-serif;
 }

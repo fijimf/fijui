@@ -31,3 +31,4 @@ export class Quote {
     this.tag = tag;
   }
 }
+

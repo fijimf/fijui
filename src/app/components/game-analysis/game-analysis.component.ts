@@ -22,7 +22,7 @@ export class GameAnalysisComponent {
 
   constructor(gameService: GameService, route: ActivatedRoute) {
     this.gameService = gameService;
-    this.id = route.snapshot.params['id'];
+    this.id = route.snapshot.params['gameId'];
     this.game = undefined;
   }
 
