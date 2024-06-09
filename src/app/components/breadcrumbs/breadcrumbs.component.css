@@ -1,0 +1,49 @@
+div {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    /* Left align items vertically */
+    font-size: smaller;
+}
+
+ol {
+    list-style: none;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+li {
+    margin-right: 10px;
+    /* Space between items */
+}
+
+li li:last-child {
+    margin-right: 0;
+    /* Remove margin for the last item */
+}
+
+ol {
+
+    list-style: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+li {
+    margin-right: 10px;
+    /* Space between items */
+}
+
+a,
+a:visited {
+    text-decoration: none;
+    color: #333;
+}
+
+
+li li:last-child {
+    margin-right: 0;
+    /* Remove margin for the last item */
+}
