@@ -16,14 +16,11 @@ export class DateComponent implements OnInit {
   season: Season | undefined;
   constructor(private route: ActivatedRoute, @Inject(SeasonsService) private seasonsService: SeasonsService,
     @Inject(BreadcrumbsService) private breadcrumbService: BreadcrumbsService) {
-    this.year = this.route.snapshot.params['year'];
+    this.year = this.route.snapshot.params['season'];
     this.date = this.route.snapshot.params['yyyymmdd'];
   }
 
   ngOnInit() {
-    // this.seasonsService.getSeason(this.year).subscribe(data => {
-    //   this.season = data;
-    // });
     this.breadcrumbService.setBreadcrumbs([
       { label: "DeepFij", path: "/" },
       { label: 'Games', path: '/games' },

@@ -1,19 +1,21 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, ActivatedRoute } from '@angular/router';
+import { RouterOutlet, ActivatedRoute, RouterLink } from '@angular/router';
 import { BreadcrumbsService } from '../../services/breadcrumbs.service';
 import { Inject } from '@angular/core';
-import { SeasonsService } from '../../services/seasons.service';
+import { SeasonMonth, SeasonsService } from '../../services/seasons.service';
+import { NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 
 
 @Component({
   selector: 'app-season',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLink, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault],
   templateUrl: './season.component.html',
   styleUrl: './season.component.css'
 })
 export class SeasonComponent {
   season!: string;
+  months: SeasonMonth[] = [];
 
 
   constructor(private route: ActivatedRoute,
@@ -29,6 +31,9 @@ export class SeasonComponent {
       { label: 'Games', path: '/games' },
       { label: this.season, path: '/games/' + this.season }
     ]);
+    this.seasonsService.getSeason(this.season).subscribe(data => {
+      this.months = data;
+    });
   }
 
 }

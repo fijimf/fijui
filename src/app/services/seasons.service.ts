@@ -13,6 +13,10 @@ export class SeasonsService {
   getSeasons(): Observable<Season[]> {
     return this.http.get<Season[]>(`${this.apiUrl}/season`);
   }
+
+  getSeason(id: string): Observable<SeasonMonth[]> {
+    return this.http.get<SeasonMonth[]>(`${this.apiUrl}/season/${id}`);
+  }
 }
 
 export class Season {
@@ -37,5 +41,29 @@ export class Season {
 
   }
 }
+export class SeasonMonth {
+  month: string;
+  year: number;
+  firstOfMonth: number;
+  dates: SeasonDate[];
+  constructor(month: string, year: number, firstOfMonth: number, dates: SeasonDate[]) {
+    this.month = month;
+    this.year = year;
+    this.firstOfMonth = firstOfMonth;
+    this.dates = dates;
+  }
+}
+export class SeasonDate {
+  day: number;
+  dateKey: number;
+  games: number;
+  constructor(day: number, dateKey: number, games: number) {
+    this.day = day;
+    this.dateKey = dateKey;
+    this.games = games;
+  }
+}
+
+
 
 
