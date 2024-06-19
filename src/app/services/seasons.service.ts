@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { GameSnapshot } from './game.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ export class SeasonsService {
 
   getSeason(id: string): Observable<SeasonMonth[]> {
     return this.http.get<SeasonMonth[]>(`${this.apiUrl}/season/${id}`);
+  }
+
+  getDate(yyyy: string, yyyymmdd: string): Observable<object[]> {
+    return this.http.get<GameSnapshot[]>(`${this.apiUrl}/season/${yyyy}/${yyyymmdd}`);
   }
 }
 
