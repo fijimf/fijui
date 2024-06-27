@@ -1,8 +1,7 @@
-<div *ngIf="breadcrumbs">
-    <ol>
-        <li *ngFor="let breadcrumb of breadcrumbs">
-            >> <a [routerLink]="[breadcrumb.path]">{{ breadcrumb.label }}</a>
-        </li>
+<div class="bc-wrapper" *ngIf="breadcrumbs">
+    <c-breadcrumb>
+        <c-breadcrumb-item *ngFor="let breadcrumb of breadcrumbs" url="{{breadcrumb.path}}">{{ breadcrumb.label }}
+        </c-breadcrumb-item>
 
-    </ol>
+    </c-breadcrumb>
 </div>

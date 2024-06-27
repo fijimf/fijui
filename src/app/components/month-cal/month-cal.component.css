@@ -1,0 +1,32 @@
+.calendar-wrapper {
+    max-width: 300px;
+    font: 65% system-ui;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 2.25rem);
+}
+
+/* .day-name {
+    background: ;
+} */
+
+h1 {
+    text-align: center;
+    border-bottom: 6px gray solid;
+    margin-bottom: 0;
+}
+
+ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+li {
+    padding: 2px;
+}

@@ -1,0 +1,23 @@
+<div class="calendar-wrapper">
+    <h1>{{month.month}} {{month.year}}</h1>
+    <ol class="calendar">
+
+        <li class="day-name">Sun</li>
+        <li class="day-name">Mon</li>
+        <li class="day-name">Tue</li>
+        <li class="day-name">Wed</li>
+        <li class="day-name">Thu</li>
+        <li class="day-name">Fri</li>
+        <li class="day-name">Sat</li>
+
+        <li *ngFor="let day of month.dates" [style.grid-column-start]="day.day==1 ? month.firstOfMonth : 'auto'">
+
+            <div [ngSwitch]="day.games">
+                <div *ngSwitchCase="0">{{day.day}}</div>
+                <div *ngSwitchDefault><a [routerLink]="'/games/' + season + '/' + day.dateKey">{{day.day}}</a>
+                </div>
+            </div>
+        </li>
+
+    </ol>
+</div>

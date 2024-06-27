@@ -4,12 +4,13 @@ import { BreadcrumbsService } from '../../services/breadcrumbs.service';
 import { Inject } from '@angular/core';
 import { SeasonMonth, SeasonsService } from '../../services/seasons.service';
 import { NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
+import { MonthCalComponent } from '../month-cal/month-cal.component';
 
 
 @Component({
   selector: 'app-season',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault],
+  imports: [RouterOutlet, RouterLink, NgFor, NgSwitch, NgSwitchCase, NgSwitchDefault, MonthCalComponent],
   templateUrl: './season.component.html',
   styleUrl: './season.component.css'
 })

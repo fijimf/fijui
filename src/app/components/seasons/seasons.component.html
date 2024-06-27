@@ -1,10 +1,5 @@
-<p>SEASONS</p>
-
-<div *ngFor="let season of seasons">
-    <p><a>{{ season.year }}</a></p>
-    <a routerLink="['/season', season.year]">{{ season.year }}</a>
-    <p>{{ season.games }} {{ season.firstGame }} - {{season.lastGame}}</p>
-    <p>{{ season.teams}}</p>
-    <p>{{ season.conferences }}</p>
-    <p>{{ season.lastUpdated }}</p>
+<div class="season-page">
+    <h1>Seasons</h1><ag-grid-angular class="ag-theme-quartz" style="height: 500px;" [rowData]="seasons"
+        [columnDefs]="cols">
+    </ag-grid-angular>
 </div>
