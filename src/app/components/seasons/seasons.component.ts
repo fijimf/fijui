@@ -17,12 +17,17 @@ export class SeasonsComponent implements OnInit {
   seasons: Season[] = [];
   cols: ColDef[] = [
     { field: "id", hide: true },
-    { field: "year", headerName: "Year" },
+    {
+      field: "year", headerName: "Year", cellRenderer: function (x: any) {
+        console.log('x', x);
+        return `<a href="/games/${x.value}" target="_blank">${x.value}</a>`;
+      }
+    },
     { field: "games", headerName: "# of Games", type: 'numericColumn' },
     { field: "teams", headerName: "# of Teams", type: 'numericColumn' },
     { field: "conferences", hide: true },
-    { field: "firstGame", headerName: "First Game", type: 'dateColumn' },
-    { field: "lastGame", headerName: "Last Game", type: 'dateColumn' },
+    { field: "firstGame", headerName: "First Game" },
+    { field: "lastGame", headerName: "Last Game" },
     { field: "lastUpdated", headerName: "Updated At" },];
   constructor(@Inject(SeasonsService) private seasonsService: SeasonsService,
     @Inject(BreadcrumbsService) private breadcrumbService: BreadcrumbsService) { }
