@@ -1,4 +1,5 @@
-<p>date works!</p>
-<div *ngFor="let game of games">
-    <p>{{ game }}</p>
+<div class="date-page">
+    <h1>{{data.prettyDate}}</h1><ag-grid-angular class="ag-theme-balham" style="height: 500px;" [rowData]="data.games"
+        [columnDefs]="cols">
+    </ag-grid-angular>
 </div>

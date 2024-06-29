@@ -2,6 +2,7 @@
 @import '@coreui/coreui/dist/css/coreui.min.css';
 @import 'ag-grid-community/styles/ag-grid.css';
 @import 'ag-grid-community/styles/ag-theme-quartz.css';
+@import "@fortawesome/fontawesome-free/css/all.css";
 
 html, body { height: 100%; }
 body {
