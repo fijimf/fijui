@@ -18,8 +18,14 @@ export class DateComponent implements OnInit {
   date: string | undefined;
   data: any = [];
 
-  cols: ColDef[] = [
-    { field: "id", headerName: "", cellRenderer: function (x: any) { return `<a href="#"><i class="fa-regular fa-lightbulb"></a></i>`; }, width: 50 },
+  cols: ColDef[] = [];
+
+
+  constructor(private route: ActivatedRoute, @Inject(SeasonsService) private seasonsService: SeasonsService,
+    @Inject(BreadcrumbsService) private breadcrumbService: BreadcrumbsService) {
+    this.year = this.route.snapshot.params['season'];
+    this.date = this.route.snapshot.params['yyyymmdd'];
+    this.cols = [{ field: "id", headerName: "", cellRenderer: this.createLinkRenderer(this.year!, this.date!), width: 50 },
     { field: "homeName", headerName: "Home Team", width: 250 },
     { field: "homeScore", headerName: "Score", type: 'numericColumn', width: 75 },
     { field: "awayName", headerName: "Away Team", width: 250 },
@@ -28,11 +34,12 @@ export class DateComponent implements OnInit {
     { field: "result", headerName: "Result", width: 100 },
     { field: "overUnder", headerName: "O/U", width: 100 },
     { field: "overUnderResult", headerName: "Result", width: 100 },];
+  }
 
-  constructor(private route: ActivatedRoute, @Inject(SeasonsService) private seasonsService: SeasonsService,
-    @Inject(BreadcrumbsService) private breadcrumbService: BreadcrumbsService) {
-    this.year = this.route.snapshot.params['season'];
-    this.date = this.route.snapshot.params['yyyymmdd'];
+  private createLinkRenderer(year: string, date: string): Function {
+    return function (x: any) {
+      return `<a href="/games/${year}/${date}/${x.data.id}"><i class="fa-regular fa-lightbulb"></a></i>`;
+    };
   }
 
   ngOnInit() {

@@ -19,6 +19,7 @@ export class GameService {
 
 export class GameSnapshot {
   id: number;
+  slug: string;
   date: string;
   homeSnapshot: TeamSnapshot;
   homeScore: number;
@@ -30,6 +31,7 @@ export class GameSnapshot {
 
   constructor(data: any) {
     this.id = data.id;
+    this.slug = data.slug;
     this.date = data.date;
     this.homeSnapshot = data.homeSnapshot;
     this.homeScore = data.homeScore;
