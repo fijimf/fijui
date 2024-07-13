@@ -6,8 +6,7 @@ import { SeasonComponent } from './components/season/season.component';
 import { DateComponent } from './components/date/date.component';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', component: HomeComponent },
+    { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: 'games', component: SeasonsComponent },
     { path: 'games/:season', component: SeasonComponent },
     { path: 'games/:season/:yyyymmdd', component: DateComponent },
