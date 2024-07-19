@@ -1,10 +1,8 @@
 pipeline {
     agent any
-
     environment {
-        DOCKER_IMAGE = 'your-docker-repo/your-app-name:latest'
+        BRANCH_NAME = "${env.BRANCH_NAME}"
     }
-
     stages {
         stage('Checkout') {
             steps {
@@ -14,10 +12,22 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build the Docker image
-                    sh "docker build -t ${DOCKER_IMAGE} ."
+                    sh "docker build -t fijui ."
                 }
             }
         }
+        stage('Release') {
+            when { branch 'release-*' }
+            steps {
+                sh 'echo $BRANCH_NAME'
+                sh "docker build -t uberfij:latest -t fijui:${BRANCH_NAME} ."
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
     }
 }
+  
