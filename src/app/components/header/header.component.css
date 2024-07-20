@@ -2,7 +2,7 @@
 
 .deepfij-header {
     background-color: white;
-    background-image: url(http://localhost:8080/css/img/deepfij-ted2.jpg);
+    background-image: url(/assets/deepfij-ted2.jpg);
         background-position: 50% 64%;
         background-size: cover;
         border-bottom: #333 5px solid;
