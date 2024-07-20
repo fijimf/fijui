@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://deepfij:8080'
+    apiUrl: 'http://fijimf.com/api'
 };
