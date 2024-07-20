@@ -5,7 +5,7 @@ COPY package*.json ./
 RUN npm install --force
 COPY . .
 RUN mkdir -p dist/out
-RUN npm run build -- --output-path=./dist/out --configuration production
+RUN npm run build -- --output-path=./dist/out --configuration production 
 
 # Stage 2: Serve the application from Nginx
 FROM nginx:alpine
