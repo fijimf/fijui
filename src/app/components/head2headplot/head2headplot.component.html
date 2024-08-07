@@ -1,5 +1,39 @@
 <div>
-    <div id="plot">
+    <mat-card>
+        <mat-card-content>
+            <div id="plot">
 
-    </div>
+            </div>
+
+            <div class="control-panel">
+                <div class="control-panel-left">
+                    <label>Show win/loss line</label>
+                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
+                    <label>Show spread line</label>
+                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
+                    <label>Show over/under line</label>
+                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
+                    <label>Show actual result</label>
+                    <input type="checkbox" id="toggle-actual-result" (change)="toggleActualResult($event)" checked>
+                </div>
+                <div class="control-panel-right">
+                    <label></label>
+                    <label>{{game?.homeSnapshot?.team?.name}}</label>
+                    <label>{{game?.awaySnapshot?.team?.name}}</label>
+                    <label>Show Games</label>
+                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
+                    <input type="checkbox" id="toggle-games" (change)="toggleAwayGames($event)" checked>
+                    <label>Show average PF/PA</label>
+                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
+                    <input type="checkbox" id="toggle-games" (change)="toggleAwayGames($event)" checked>
+                    <label>Show Q1-Q3 PF/PA range</label>
+                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
+                    <input type="checkbox" id="toggle-games" (change)="toggleAwayGames($event)" checked>
+                    <label>Show 95% conf ellipsoid</label>
+                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
+                    <input type="checkbox" id="toggle-games" (change)="toggleAwayGames($event)" checked>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
 </div>

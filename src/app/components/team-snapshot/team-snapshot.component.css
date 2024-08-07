@@ -5,5 +5,10 @@
 
 
 .team-card {
-    border-width: 12px;
+    border-width: 36px 1px 1px 1px;
+}
+
+.team-title {
+    font-size: 20px;
+    font-weight: bold;
 }

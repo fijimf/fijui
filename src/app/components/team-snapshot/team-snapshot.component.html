@@ -1,11 +1,15 @@
 <div>
     <mat-card class="team-card" [style.borderColor]="'#'+teamSnapshot?.team?.color">
         <mat-card-header>
+            <div>
+                <mat-card-title>{{teamSnapshot?.team?.name}}</mat-card-title>
+                <mat-card-subtitle>{{teamSnapshot?.team?.conference}}</mat-card-subtitle>
+            
+            </div>
             <div mat-card-avatar>
                 <img mat-card-avatar src={{teamSnapshot?.team?.logo}} alt={{teamSnapshot?.team?.key}}>
             </div>
-            <mat-card-title>{{teamSnapshot?.team?.name}}</mat-card-title>
-            <mat-card-subtitle>{{teamSnapshot?.team?.conference}}</mat-card-subtitle>
+            
         </mat-card-header>
         <!-- <img mat-card-image src={{teamSnapshot?.team?.logo}} alt={{teamSnapshot?.team?.key}}> -->
         <mat-card-content>

@@ -1,22 +1,39 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { GameSnapshot, TeamSnapshot } from '../../services/game.service';
+import { GameSnapshot, TeamGameSnapshot, TeamSnapshot } from '../../services/game.service';
 import * as d3 from 'd3';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-head2headplot',
   standalone: true,
-  imports: [],
+  imports: [MatCardModule, MatListModule, CommonModule],
   templateUrl: './head2headplot.component.html',
   styleUrl: './head2headplot.component.css'
 })
 export class Head2headplotComponent {
 
+  toggleHomeGames(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    d3.selectAll(".home-games").style("display", isChecked ? "initial" : "none");
+  }
+  toggleAwayGames(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    d3.selectAll(".away-games").style("display", isChecked ? "initial" : "none");
+  }
+
+  toggleActualResult(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    d3.selectAll(".actual-result").style("display", isChecked ? "initial" : "none");
+  }
+
   @Input() game!: GameSnapshot | undefined;
   ngOnChanges(changes: SimpleChanges) {
     if (changes['game'] && changes['game'].currentValue) {
       var margin = { top: 20, right: 30, bottom: 80, left: 110 },
-        width = 440 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        width = 640 - margin.left - margin.right,
+        height = 600 - margin.top - margin.bottom;
 
       // append the svg object to the body of the page
       var svg = d3.select("#plot")
@@ -60,7 +77,8 @@ export class Head2headplotComponent {
 
 
       addImpliedResult(this.game);
-
+      addGames(this.game?.homeSnapshot.games, this.game?.homeSnapshot.team.color, true);
+      addGames(this.game?.awaySnapshot.games, this.game?.awaySnapshot.team.color, false);
       addTeamStats(this.game?.homeSnapshot, true);
       addTeamStats(this.game?.awaySnapshot, false);
 
@@ -139,6 +157,21 @@ export class Head2headplotComponent {
         .style("stroke-dasharray", ("3, 3"));
     }
 
+    function addGames(games: TeamGameSnapshot[] | undefined, color: string | undefined, isHomeTeam: boolean) {
+      if (games == undefined) return;
+      svg.append("g")
+        .attr("class", isHomeTeam ? "home-games" : "away-games")
+        .selectAll("gs")
+        .data(games)
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) { return isHomeTeam ? x(d.score) : x(d.oppScore); })
+        .attr("cy", function (d) { return isHomeTeam ? x(d.oppScore) : x(d.score); })
+        .attr("r", 4)
+        .style("fill", "#" + color || "black")
+        .style("filter", "brightness(1.25)");
+    }
+
     function addActualResult(game: GameSnapshot | undefined = undefined) {
       var home = game?.homeScore ?? 0;
       var away = game?.awayScore ?? 0;
@@ -148,6 +181,7 @@ export class Head2headplotComponent {
       var pts = [{ x: home, y: away, title: title }];
 
       const tooltip = svg
+        .selectAll("tooltip")
         .append("text")
         .attr("class", "tooltip")
         .attr("fill", "black")
@@ -155,17 +189,22 @@ export class Head2headplotComponent {
         .style("font-family", "Roboto");
 
       svg.append("g")
+        .attr("class", "actual-result")
         .selectAll("dot")
         .data(pts)
         .enter()
-        .append("circle")
-        .attr("cx", function (d) { return x(d.x); })
-        .attr("cy", function (d) { return y(d.y); })
-        .attr("r", 3)
+        .append("path")
+        .attr("d", d3.symbol().type(d3.symbolAsterisk).size(200))
+        .attr("transform", function (d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; })
+        .style("stroke", "black")
+        .style("stroke-width", "3px")
+        // .attr("cx", function (d) { return x(d.x); })
+        // .attr("cy", function (d) { return y(d.y); })
+        // .attr("r", 4)
         .style("fill", "black")
         .on("mouseenter", (evt, d) => {
           const [mx, my] = d3.pointer(evt);
-
+          console.log(mx, my);
           tooltip
             .attr("transform", `translate(${mx + 5}, ${my + 5})`)
             .selectAll("tspan")
@@ -190,11 +229,12 @@ export class Head2headplotComponent {
         .data(pts)
         .enter()
         .append("rect")
-        .attr("x", function (d) { return x(d.x) - 3; })
-        .attr("y", function (d) { return y(d.y) - 3; })
-        .attr("width", 6)
-        .attr("height", 6)
+        .attr("x", function (d) { return x(d.x) - 4; })
+        .attr("y", function (d) { return y(d.y) - 4; })
+        .attr("width", 8)
+        .attr("height", 8)
         .style("stroke", "black")
+        .style("stroke-width", "2px")
         .style("fill", "none");
     }
 
@@ -296,4 +336,6 @@ export class Head2headplotComponent {
 
   }
 }
+
+
 

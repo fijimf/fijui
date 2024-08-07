@@ -48,6 +48,7 @@ export class TeamSnapshot {
   asOf: string;
   record: Record;
   last5: Record;
+  games: TeamGameSnapshot[];
   pointsForAvg: number;
   pointsForStdDev: number;
   pointsForQ1: number;
@@ -61,11 +62,12 @@ export class TeamSnapshot {
   c95minorAxis: number;
   c95angle: number;
 
-  constructor(team: Team, asOf: string, record: Record, last5: Record, pointsForAvg: number, pointsForStdDev: number, pointsForQ1: number, pointsForQ3: number, pointsAgainstAvg: number, pointsAgainstStdDev: number, pointsAgainstQ1: number, pointsAgainstQ3: number, pfpaCorr: number, c95majorAxis: number, c95minorAxis: number, c95angle: number) {
+  constructor(team: Team, asOf: string, record: Record, last5: Record, games: TeamGameSnapshot[], pointsForAvg: number, pointsForStdDev: number, pointsForQ1: number, pointsForQ3: number, pointsAgainstAvg: number, pointsAgainstStdDev: number, pointsAgainstQ1: number, pointsAgainstQ3: number, pfpaCorr: number, c95majorAxis: number, c95minorAxis: number, c95angle: number) {
     this.team = team;
     this.asOf = asOf;
     this.record = record;
     this.last5 = last5;
+    this.games = games;
     this.pointsForAvg = pointsForAvg;
     this.pointsForStdDev = pointsForStdDev;
     this.pointsForQ1 = pointsForQ1;
@@ -117,4 +119,21 @@ export class Team {
     this.record = record;
 
   }
-} 
+}
+
+export class TeamGameSnapshot {
+  id: number;
+  opp: Team;
+  score: number;
+  oppScore: number;
+  date: string;
+
+  constructor(id: number, opp: Team, score: number, oppScore: number, date: string) {
+    this.id = id;
+    this.opp = opp;
+    this.score = score;
+    this.oppScore = oppScore;
+    this.date = date;
+  }
+}
+ 
