@@ -51,8 +51,7 @@ export class Head2headplotComponent {
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-        .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
         .style("background-color", "gray");
 
       // Add X axis
@@ -78,13 +77,12 @@ export class Head2headplotComponent {
         .call(d3.axisRight(y));
 
       addAxesLabels(this.game);
-      //Add over/under line
+
+      addActualResult(this.game);
+
+      addWinLossLine(this.game);
       addOverUnderLine(this.game);
-
-      //Add spread line
       addSpreadLine(this.game);
-
-
 
       addImpliedResult(this.game);
       addGames(this.game?.homeSnapshot.games, this.game?.homeSnapshot.team.color, true);
@@ -92,7 +90,6 @@ export class Head2headplotComponent {
       addTeamStats(this.game?.homeSnapshot, true);
       addTeamStats(this.game?.awaySnapshot, false);
 
-      addActualResult(this.game);
     }
 
     function addTeamStats(team: TeamSnapshot | undefined, isHome: boolean = true) {
@@ -252,6 +249,50 @@ export class Head2headplotComponent {
         .style("fill", "none");
     }
 
+    function addWinLossLine(game: GameSnapshot | undefined) {
+      svg.append("g")
+        .append("line")
+        .attr("class", "wl-line")
+        .attr("x1", x(20))
+        .attr("x2", x(120))
+        .attr("y1", y(20))
+        .attr("y2", y(120))
+        .attr("stroke", "black")
+        .attr("stroke-dasharray", ("5,2"));
+      const hWins = game?.homeSnapshot.team.name + " wins";
+
+      svg.append("g")
+        .append("text")
+        .attr("class", "wl-line")
+        .attr("x", x(20))
+        .attr("y", y(20))
+        .attr("text-anchor", "start")
+        .attr("alignment-baseline", "alphabetic")
+        .attr("dy", "+1em")
+        .attr("dx", "+2em")
+        .attr("transform", "rotate(-45, " + x(20) + "," + y(20) + ")")
+        .style("font-family", "Roboto")
+        .style("font-size", "10px")
+        .style("font-weight", "400")
+        .text(hWins);
+
+      const aWins = game?.awaySnapshot.team.name + " wins";
+      svg.append("g")
+        .append("text")
+        .attr("class", "wl-line")
+        .attr("x", x(20))
+        .attr("y", y(20))
+        .attr("text-anchor", "start")
+        .attr("alignment-baseline", "alphabetic")
+        .attr("dy", "-0.3em")
+        .attr("dx", "+2em")
+        .attr("transform", "rotate(-45, " + x(20) + "," + y(20) + ")")
+        .style("font-family", "Roboto")
+        .style("font-size", "10px")
+        .style("font-weight", "400")
+        .text(aWins);
+
+    }
 
     function addSpreadLine(game: GameSnapshot | undefined = undefined) {
       var h = game?.spread ?? 0;
@@ -330,10 +371,11 @@ export class Head2headplotComponent {
         }
       }
     }
+
+
     function addAxesLabels(game: GameSnapshot | undefined) {
       svg.append("g")
         .append("text")
-        .attr("class", "ou-line")
         .attr("x", width / 2)
         .attr("y", height + margin.top + 20)
         .attr("text-anchor", "middle")
@@ -343,7 +385,6 @@ export class Head2headplotComponent {
         .text(game?.homeSnapshot?.team?.name + "  " + game?.homeScore.toString());
       svg.append("g")
         .append("text")
-        .attr("class", "ou-line")
         .attr("x", 0)
         .attr("y", (height / 2) - 30)
         .attr("transform", "rotate(-90, 0, " + height / 2 + ")")
