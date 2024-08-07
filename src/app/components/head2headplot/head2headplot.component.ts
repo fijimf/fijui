@@ -13,20 +13,30 @@ import { CommonModule } from '@angular/common';
   styleUrl: './head2headplot.component.css'
 })
 export class Head2headplotComponent {
+  toggler(key: string): (event: Event) => void {
+    console.log('Setup ' + key)
+    return (event: Event) => {
+      console.log("toggler", key);
+      const isChecked = (event.target as HTMLInputElement).checked;
+      d3.selectAll("." + key).style("display", isChecked ? "initial" : "none");
+    }
+  }
 
-  toggleHomeGames(event: Event) {
-    const isChecked = (event.target as HTMLInputElement).checked;
-    d3.selectAll(".home-games").style("display", isChecked ? "initial" : "none");
-  }
-  toggleAwayGames(event: Event) {
-    const isChecked = (event.target as HTMLInputElement).checked;
-    d3.selectAll(".away-games").style("display", isChecked ? "initial" : "none");
-  }
+  toggleWL = this.toggler('wl-line');
+  toggleSprd = this.toggler('sprd-line');
+  toggleOU = this.toggler('ou-line');
+  toggleActual = this.toggler('actual-result');
+  toggleHomeGames = this.toggler('home-games');
+  toggleAwayGames = this.toggler('away-games');
+  toggleHomePFPA = this.toggler('home-pfpa');
+  toggleAwayPFPA = this.toggler('away-pfpa');
+  toggleHomeIQR = this.toggler('home-iqr');
+  toggleAwayIQR = this.toggler('away-iqr');
+  toggleHome95Conf = this.toggler('home-95conf');
+  toggleAway95Conf = this.toggler('away-95conf');
 
-  toggleActualResult(event: Event) {
-    const isChecked = (event.target as HTMLInputElement).checked;
-    d3.selectAll(".actual-result").style("display", isChecked ? "initial" : "none");
-  }
+
+
 
   @Input() game!: GameSnapshot | undefined;
   ngOnChanges(changes: SimpleChanges) {
@@ -96,6 +106,7 @@ export class Head2headplotComponent {
         .data(teamPoint)
         .enter()
         .append("circle")
+        .attr("class", isHome ? "home-pfpa" : "away-pfpa")
         .attr("cx", function (d) { return x(d.x); })
         .attr("cy", function (d) { return y(d.y); })
         .attr("r", 3)
@@ -118,6 +129,7 @@ export class Head2headplotComponent {
         .attr("x2", function (d) { return x(d.p2.x) })
         .attr("y1", function (d) { return y(d.p1.y) })
         .attr("y2", function (d) { return y(d.p2.y) })
+        .attr("class", isHome ? "home-iqr" : "away-iqr")
         .attr("stroke", "#" + team.team.color);
 
       var pfLine = isHome ? [{ p1: { x: team.pointsForAvg, y: team.pointsAgainstQ1 }, p2: { x: team.pointsForAvg, y: team.pointsAgainstQ3 } },
@@ -134,6 +146,7 @@ export class Head2headplotComponent {
         .data(pfLine)
         .enter()
         .append("line")
+        .attr("class", isHome ? "home-iqr" : "away-iqr")
         .attr("x1", function (d) { return x(d.p1.x) })
         .attr("x2", function (d) { return x(d.p2.x) })
         .attr("y1", function (d) { return y(d.p1.y) })
@@ -146,6 +159,7 @@ export class Head2headplotComponent {
         .data([{ x: teamPoint[0].x, y: teamPoint[0].y, rx: team.c95majorAxis, ry: team.c95minorAxis, r: team.c95angle }])
         .enter()
         .append("ellipse")
+        .attr("class", isHome ? "home-95conf" : "away-95conf")
         .attr("cx", function (d) { return x(d.x); })
         .attr("cy", function (d) { return y(d.y); })
         .attr("rx", function (d) { return (1.0 / xScalefactor) * d.x; })
@@ -245,6 +259,7 @@ export class Head2headplotComponent {
 
       svg.append("g")
         .append("line")
+        .attr("class", "sprd-line")
         .attr("x1", x(pts[0].x))
         .attr("x2", x(pts[1].x))
         .attr("y1", y(pts[0].y))
@@ -255,6 +270,7 @@ export class Head2headplotComponent {
         game?.homeSnapshot.team.name + "+" + h.toFixed(1);
       svg.append("g")
         .append("text")
+        .attr("class", "sprd-line")
         .attr("x", x(pts[1].x))
         .attr("y", y(pts[1].y))
         .attr("text-anchor", "end")
@@ -270,6 +286,7 @@ export class Head2headplotComponent {
         game?.awaySnapshot.team.name + h.toFixed(1);
       svg.append("g")
         .append("text")
+        .attr("class", "sprd-line")
         .attr("x", x(pts[1].x))
         .attr("y", y(pts[1].y))
         .attr("text-anchor", "end")
@@ -297,6 +314,7 @@ export class Head2headplotComponent {
         var pts = ouLineDef(k, { min: 20, max: 120 });
         svg.append("g")
           .append("line")
+          .attr("class", "ou-line")
           .attr("x1", x(pts[0].x))
           .attr("x2", x(pts[1].x))
           .attr("y1", y(pts[0].y))
@@ -315,6 +333,7 @@ export class Head2headplotComponent {
     function addAxesLabels(game: GameSnapshot | undefined) {
       svg.append("g")
         .append("text")
+        .attr("class", "ou-line")
         .attr("x", width / 2)
         .attr("y", height + margin.top + 20)
         .attr("text-anchor", "middle")
@@ -324,6 +343,7 @@ export class Head2headplotComponent {
         .text(game?.homeSnapshot?.team?.name + "  " + game?.homeScore.toString());
       svg.append("g")
         .append("text")
+        .attr("class", "ou-line")
         .attr("x", 0)
         .attr("y", (height / 2) - 30)
         .attr("transform", "rotate(-90, 0, " + height / 2 + ")")

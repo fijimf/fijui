@@ -8,13 +8,13 @@
             <div class="control-panel">
                 <div class="control-panel-left">
                     <label>Show win/loss line</label>
-                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
+                    <input type="checkbox" id="toggle-wl" (change)="toggleWL($event)" checked>
                     <label>Show spread line</label>
-                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
+                    <input type="checkbox" id="toggle-sprd" (change)="toggleSprd($event)" checked>
                     <label>Show over/under line</label>
-                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
+                    <input type="checkbox" id="toggle-ou" (change)="toggleOU($event)" checked>
                     <label>Show actual result</label>
-                    <input type="checkbox" id="toggle-actual-result" (change)="toggleActualResult($event)" checked>
+                    <input type="checkbox" id="toggle-actual" (change)="toggleActual($event)" checked>
                 </div>
                 <div class="control-panel-right">
                     <label></label>
@@ -24,14 +24,14 @@
                     <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
                     <input type="checkbox" id="toggle-games" (change)="toggleAwayGames($event)" checked>
                     <label>Show average PF/PA</label>
-                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
-                    <input type="checkbox" id="toggle-games" (change)="toggleAwayGames($event)" checked>
+                    <input type="checkbox" id="toggle-pfpa" (change)="toggleHomePFPA($event)" checked>
+                    <input type="checkbox" id="toggle-pfpa" (change)="toggleAwayPFPA($event)" checked>
                     <label>Show Q1-Q3 PF/PA range</label>
-                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
-                    <input type="checkbox" id="toggle-games" (change)="toggleAwayGames($event)" checked>
+                    <input type="checkbox" id="toggle-away-iqr" (change)="toggleHomeIQR($event)" checked>
+                    <input type="checkbox" id="toggle-away-iqr" (change)="toggleAwayIQR($event)" checked>
                     <label>Show 95% conf ellipsoid</label>
-                    <input type="checkbox" id="toggle-games" (change)="toggleHomeGames($event)" checked>
-                    <input type="checkbox" id="toggle-games" (change)="toggleAwayGames($event)" checked>
+                    <input type="checkbox" id="toggle-home-95" (change)="toggleHome95Conf($event)" checked>
+                    <input type="checkbox" id="toggle-away-95" (change)="toggleAway95Conf($event)" checked>
                 </div>
             </div>
         </mat-card-content>
