@@ -4,5 +4,6 @@
     display: grid;
     grid-template-columns: 20% auto 20%;
     justify-content: normal;
-    align-items: top;
+    align-items: stretch;
+
 }

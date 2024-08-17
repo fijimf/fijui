@@ -14,9 +14,7 @@ import { CommonModule } from '@angular/common';
 })
 export class Head2headplotComponent {
   toggler(key: string): (event: Event) => void {
-    console.log('Setup ' + key)
     return (event: Event) => {
-      console.log("toggler", key);
       const isChecked = (event.target as HTMLInputElement).checked;
       d3.selectAll("." + key).style("display", isChecked ? "initial" : "none");
     }
@@ -26,6 +24,7 @@ export class Head2headplotComponent {
   toggleSprd = this.toggler('sprd-line');
   toggleOU = this.toggler('ou-line');
   toggleActual = this.toggler('actual-result');
+  toggleImplied = this.toggler('implied-result');
   toggleHomeGames = this.toggler('home-games');
   toggleAwayGames = this.toggler('away-games');
   toggleHomePFPA = this.toggler('home-pfpa');
@@ -159,8 +158,8 @@ export class Head2headplotComponent {
         .attr("class", isHome ? "home-95conf" : "away-95conf")
         .attr("cx", function (d) { return x(d.x); })
         .attr("cy", function (d) { return y(d.y); })
-        .attr("rx", function (d) { return (1.0 / xScalefactor) * d.x; })
-        .attr("ry", function (d) { return (1.0 / yScalefactor) * d.y; })
+        .attr("rx", function (d) { return (xScalefactor) * d.rx; })
+        .attr("ry", function (d) { return (yScalefactor) * d.ry; })
         .attr("transform", function (d) { return "rotate(" + d.r + "," + x(d.x) + "," + y(d.y) + ")"; })
         .style("fill", "#" + team.team.color)
         .style("fill-opacity", 0.25)
@@ -177,7 +176,7 @@ export class Head2headplotComponent {
         .enter()
         .append("circle")
         .attr("cx", function (d) { return isHomeTeam ? x(d.score) : x(d.oppScore); })
-        .attr("cy", function (d) { return isHomeTeam ? x(d.oppScore) : x(d.score); })
+        .attr("cy", function (d) { return isHomeTeam ? y(d.oppScore) : y(d.score); })
         .attr("r", 4)
         .style("fill", "#" + color || "black")
         .style("filter", "brightness(1.25)");
@@ -191,14 +190,6 @@ export class Head2headplotComponent {
       game?.awaySnapshot?.team?.name + " " + away]
       var pts = [{ x: home, y: away, title: title }];
 
-      const tooltip = svg
-        .selectAll("tooltip")
-        .append("text")
-        .attr("class", "tooltip")
-        .attr("fill", "black")
-        .style("font-size", "9px")
-        .style("font-family", "Roboto");
-
       svg.append("g")
         .attr("class", "actual-result")
         .selectAll("dot")
@@ -209,24 +200,7 @@ export class Head2headplotComponent {
         .attr("transform", function (d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; })
         .style("stroke", "black")
         .style("stroke-width", "3px")
-        // .attr("cx", function (d) { return x(d.x); })
-        // .attr("cy", function (d) { return y(d.y); })
-        // .attr("r", 4)
-        .style("fill", "black")
-        .on("mouseenter", (evt, d) => {
-          const [mx, my] = d3.pointer(evt);
-          console.log(mx, my);
-          tooltip
-            .attr("transform", `translate(${mx + 5}, ${my + 5})`)
-            .selectAll("tspan")
-            .data(d.title)
-            .join("tspan")
-            .attr("dy", "1.1em")
-            .attr("x", "0px")
-            .text((text) => text)
-            .attr("filter", "drop-shadow(1px 1px 1px white)");
-        })
-        .on("mouseout", () => tooltip.selectAll("tspan").remove());
+        .style("fill", "black");
     }
 
     function addImpliedResult(game: GameSnapshot | undefined = undefined) {
@@ -236,6 +210,7 @@ export class Head2headplotComponent {
       var away = (game.overUnder - game.spread) / 2;
       var pts = [{ x: home, y: away }];
       svg.append("g")
+        .attr("class", "implied-result")
         .selectAll("dot")
         .data(pts)
         .enter()
@@ -244,9 +219,9 @@ export class Head2headplotComponent {
         .attr("y", function (d) { return y(d.y) - 4; })
         .attr("width", 8)
         .attr("height", 8)
-        .style("stroke", "black")
+        .style("stroke", "gray")
         .style("stroke-width", "2px")
-        .style("fill", "none");
+        .style("fill", "gray");
     }
 
     function addWinLossLine(game: GameSnapshot | undefined) {
@@ -259,7 +234,7 @@ export class Head2headplotComponent {
         .attr("y2", y(120))
         .attr("stroke", "black")
         .attr("stroke-dasharray", ("5,2"));
-      const hWins = game?.homeSnapshot.team.name + " wins";
+      const hWins = game?.homeSnapshot.team.name + " wins/" + game?.awaySnapshot.team.name + " loses";
 
       svg.append("g")
         .append("text")
@@ -276,7 +251,7 @@ export class Head2headplotComponent {
         .style("font-weight", "400")
         .text(hWins);
 
-      const aWins = game?.awaySnapshot.team.name + " wins";
+      const aWins = game?.awaySnapshot.team.name + " wins/" + game?.homeSnapshot.team.name + " loses";
       svg.append("g")
         .append("text")
         .attr("class", "wl-line")
@@ -338,7 +313,7 @@ export class Head2headplotComponent {
         .style("font-family", "Roboto")
         .style("font-size", "10px")
         .style("font-weight", "400")
-        .text(game?.awaySnapshot.team.name + "-" + h.toFixed(1));
+        .text(aSpreadTxt);
     }
 
     function spreadLineDef(spread: number, range: { min: number, max: number }) {
@@ -380,9 +355,20 @@ export class Head2headplotComponent {
         .attr("y", height + margin.top + 20)
         .attr("text-anchor", "middle")
         .style("font-family", "Roboto")
+        .append("tspan")
+        .style("font-size", "16px")
+        .style("font-weight", "400")
+        .style("font-style", "italic")
+        .text("HOME")
+        .append("tspan")
+        .attr("x", width / 2)
+        .attr("dx", ".75em")
+        .attr("dy", "1em")
         .style("font-size", "24px")
         .style("font-weight", "700")
+        .style("font-style", "normal")
         .text(game?.homeSnapshot?.team?.name + "  " + game?.homeScore.toString());
+
       svg.append("g")
         .append("text")
         .attr("x", 0)
@@ -390,8 +376,17 @@ export class Head2headplotComponent {
         .attr("transform", "rotate(-90, 0, " + height / 2 + ")")
         .attr("text-anchor", "middle")
         .style("font-family", "Roboto")
-        .style("font-size", "24px")
+        .append("tspan")
+        .style("font-size", "16px")
+        .style("font-weight", "400")
+        .style("font-style", "italic")
+        .attr("dx", "-1em")
+        .text("AWAY")
+        .append("tspan").style("font-size", "24px")
         .style("font-weight", "700")
+        .style("font-style", "normal")
+        .attr("x", 0)
+        .attr("dy", "-.85em")
         .text(game?.awaySnapshot?.team?.name + "  " + game?.awayScore.toString());
     }
 

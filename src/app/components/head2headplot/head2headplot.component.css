@@ -59,8 +59,3 @@
     text-wrap: nowrap;
     overflow-x: clip;
 }
-
-.tooltip {
-    font-family: 'Roboto', sans;
-    font-size: 9px;
-}
