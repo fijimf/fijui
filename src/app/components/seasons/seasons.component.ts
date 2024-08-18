@@ -20,7 +20,7 @@ export class SeasonsComponent implements OnInit {
     {
       field: "year", headerName: "Year", cellRenderer: function (x: any) {
         console.log('x', x);
-        return `<a href="/games/${x.value}" target="_blank">${x.value}</a>`;
+        return `<a href="/games/${x.value}" >${x.value}</a>`;
       }
     },
     { field: "games", headerName: "# of Games", type: 'numericColumn' },
