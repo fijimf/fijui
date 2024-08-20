@@ -28,7 +28,8 @@ export class DateComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, @Inject(SeasonsService) private seasonsService: SeasonsService,
     @Inject(BreadcrumbsService) private breadcrumbService: BreadcrumbsService) {
-    this.cols = [{ field: "id", headerName: "", cellRenderer: this.createLinkRenderer(this.year!, this.date!), width: 50 },
+    const cellRenderer = this.createLinkRenderer();
+    this.cols = [{ field: "id", headerName: "", cellRenderer: (x: any) => { return `<a href="/games/${this.year}/${this.date}/${x.data.id}"><i class="fa-regular fa-lightbulb"></a></i>` }, width: 50 },
     { field: "homeName", headerName: "Home Team", width: 250 },
     { field: "homeScore", headerName: "Score", type: 'numericColumn', width: 75 },
     { field: "awayName", headerName: "Away Team", width: 250 },
@@ -64,9 +65,11 @@ export class DateComponent implements OnInit {
     });
   }
 
-  private createLinkRenderer(year: string, date: string): Function {
+  private createLinkRenderer(): Function {
+    const y = this.year!;
+    const d = this.date!;
     return function (x: any) {
-      return `<a href="/games/${year}/${date}/${x.data.id}"><i class="fa-regular fa-lightbulb"></a></i>`;
+      return;
     };
   }
 }
