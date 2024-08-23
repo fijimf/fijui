@@ -1,7 +1,9 @@
 <div class="date-page">
-    <h1>{{data.prettyDate}}</h1>
-    <a [routerLink]="'/games/' + year + '/'+prev">Prev</a>
-    <a [routerLink]="'/games/' + year + '/'+next">Next</a>
-    <ag-grid-angular class="ag-theme-balham" style="height: 500px;" [rowData]="data.games" [columnDefs]="cols">
+    <h2>{{data.prettyDate}}</h2>
+    <div class="date-nav">
+        <a [routerLink]="'/games/' + year + '/'+prev">Prev</a>
+        <a [routerLink]="'/games/' + year + '/'+next">Next</a>
+    </div>
+    <ag-grid-angular class="ag-theme-balham" [rowData]="data.games" [columnDefs]="cols" [domLayout]="'autoHeight'">
     </ag-grid-angular>
 </div>

@@ -1,4 +1,16 @@
 .date-page {
+    background-color: white;
+    padding: 0 2rem 2rem 2rem;
+    border-right: 1px solid gray;
+    border-left: 1px solid gray;
+    min-height: 40rem;
+}
 
-    padding: 2rem;
+.date-nav {
+    font-size: 1rem;
+    padding-bottom: 1rem;
+}
+
+.date-nav a {
+    padding-right: 1rem;
 }
