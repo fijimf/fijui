@@ -4,10 +4,20 @@
     justify-content: left;
     align-items: flex-start;
     padding: 0;
+
+
 }
 
 .year {
     font-size: 1.5rem;
     font-weight: bold;
-    padding: 0.5rem 0 1rem 2rem;
+}
+
+.season {
+    padding: 2rem;
+    max-width: 1440px;
+    background-color: white;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    min-height: 40rem;
 }

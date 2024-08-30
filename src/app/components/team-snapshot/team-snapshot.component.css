@@ -1,14 +1,19 @@
 [mat-card-avatar] {
     /* Your custom styles here */
     border-radius: 5%;
+    margin-right:.5rem;
 }
+
 
 
 .team-card {
     border-width: 36px 1px 1px 1px;
 }
 
+
+
 .team-title {
+
     font-size: 20px;
     font-weight: bold;
 }

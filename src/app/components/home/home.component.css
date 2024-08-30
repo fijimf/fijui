@@ -1,0 +1,15 @@
+.home-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 2rem;
+    max-width: 1440px;
+    background-color: white;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    min-height: 40rem;
+}
+
+.home-main p {
+    padding-top: 1rem;
+    font-size: 75%;
+}

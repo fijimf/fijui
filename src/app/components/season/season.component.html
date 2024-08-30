@@ -1,6 +1,8 @@
-<p class="year">{{ season }}</p>
-<div class="outer-wrapper">
-    <div *ngFor="let month of months">
-    <app-month-cal [month]="month" [season]="season"></app-month-cal>
+<div class="season">
+    <p class="year">{{prevSeason}} - {{ season }} Game Dates</p>
+    <div class="outer-wrapper">
+        <div *ngFor="let month of months">
+            <app-month-cal [month]="month" [season]="season"></app-month-cal>
+        </div>
     </div>
 </div>

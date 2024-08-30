@@ -58,11 +58,11 @@ export class TeamSnapshot {
   pointsAgainstQ1: number;
   pointsAgainstQ3: number;
   pfpaCorr: number;
-  c95majorAxis: number;
-  c95minorAxis: number;
+  c95pfAxis: number;
+  c95paAxis: number;
   c95angle: number;
 
-  constructor(team: Team, asOf: string, record: Record, last5: Record, games: TeamGameSnapshot[], pointsForAvg: number, pointsForStdDev: number, pointsForQ1: number, pointsForQ3: number, pointsAgainstAvg: number, pointsAgainstStdDev: number, pointsAgainstQ1: number, pointsAgainstQ3: number, pfpaCorr: number, c95majorAxis: number, c95minorAxis: number, c95angle: number) {
+  constructor(team: Team, asOf: string, record: Record, last5: Record, games: TeamGameSnapshot[], pointsForAvg: number, pointsForStdDev: number, pointsForQ1: number, pointsForQ3: number, pointsAgainstAvg: number, pointsAgainstStdDev: number, pointsAgainstQ1: number, pointsAgainstQ3: number, pfpaCorr: number, c95pfAxis: number, c95paAxis: number, c95angle: number) {
     this.team = team;
     this.asOf = asOf;
     this.record = record;
@@ -77,8 +77,8 @@ export class TeamSnapshot {
     this.pointsAgainstQ1 = pointsAgainstQ1;
     this.pointsAgainstQ3 = pointsAgainstQ3;
     this.pfpaCorr = pfpaCorr;
-    this.c95majorAxis = c95majorAxis;
-    this.c95minorAxis = c95minorAxis;
+    this.c95pfAxis = c95pfAxis;
+    this.c95paAxis = c95paAxis;
     this.c95angle = c95angle;
 
   }

@@ -1,1 +1,25 @@
-<p>home works!</p>
+<div class="home-main">
+
+    <mat-card class="game-analysis">
+        <mat-card-header>
+            <div>
+                <mat-card-title>Games</mat-card-title>
+                <mat-card-subtitle>Head-to-Head Analysis</mat-card-subtitle>
+
+            </div>
+        </mat-card-header>
+        <!-- <img mat-card-image src={{teamSnapshot?.team?.logo}} alt={{teamSnapshot?.team?.key}}> -->
+        <mat-card-content>
+            <p>Simple head to head anaylis of teams, showing simple points-for and points-against for thhe competeing
+                teams. Over/under and spread are shown when available. For games in the past lines are as of game time;
+                future games will show a current line. Statistics are as of game time.
+
+            </p>
+
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button [routerLink]="['/games']">See Games</button>
+        </mat-card-actions>
+    </mat-card>
+
+</div>

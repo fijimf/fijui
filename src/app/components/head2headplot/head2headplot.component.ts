@@ -152,7 +152,7 @@ export class Head2headplotComponent {
 
       svg.append("g")
         .selectAll("conf95")
-        .data([{ x: teamPoint[0].x, y: teamPoint[0].y, rx: team.c95majorAxis, ry: team.c95minorAxis, r: team.c95angle }])
+        .data([{ x: teamPoint[0].x, y: teamPoint[0].y, rx: isHome ? team.c95pfAxis : team.c95paAxis, ry: isHome ? team.c95paAxis : team.c95pfAxis, r: team.c95angle }])
         .enter()
         .append("ellipse")
         .attr("class", isHome ? "home-95conf" : "away-95conf")

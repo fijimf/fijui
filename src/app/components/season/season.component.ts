@@ -16,6 +16,7 @@ import { MonthCalComponent } from '../month-cal/month-cal.component';
 })
 export class SeasonComponent {
   season!: string;
+  prevSeason!: string;
   months: SeasonMonth[] = [];
 
 
@@ -26,6 +27,7 @@ export class SeasonComponent {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.season = params['season'];
+      this.prevSeason = (Number.parseInt(this.season) - 1).toString();
     });
     this.breadcrumbService.setBreadcrumbs([
       { label: "DeepFij", path: "/" },
