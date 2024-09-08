@@ -26,14 +26,9 @@ body {
 }
 
 @media (max-width: 480px) {
-    .grid {
-        grid-template-rows: auto 3rem max-content 5rem;
+    .main-grid {
+        grid-template-rows: auto 3rem auto 5rem;
         grid-template-columns: 1fr;
-    }
-
-    aside,
-    main {
-        grid-column: 1 / 4;
     }
 }
 
