@@ -206,8 +206,8 @@ export class Head2headplotComponent {
     function addImpliedResult(game: GameSnapshot | undefined = undefined) {
       if (game == undefined) return;
 
-      var home = (game.spread + game.overUnder) / 2;
-      var away = (game.overUnder - game.spread) / 2;
+      var home = (game.overUnder - game.spread) / 2;
+      var away = (game.overUnder + game.spread) / 2;
       var pts = [{ x: home, y: away }];
       svg.append("g")
         .attr("class", "implied-result")
@@ -291,7 +291,7 @@ export class Head2headplotComponent {
         .attr("y", y(pts[1].y))
         .attr("text-anchor", "end")
         .attr("alignment-baseline", "alphabetic")
-        .attr("dy", "-.3em")
+        .attr("dy", "+1em")
         .attr("dx", "-2em")
         .attr("transform", "rotate(-45, " + x(pts[1].x) + "," + y(pts[1].y) + ")")
         .style("font-family", "Roboto")
@@ -299,15 +299,15 @@ export class Head2headplotComponent {
         .style("font-weight", "400")
         .text(hSpreadTxt);
       const aSpreadTxt = h < 0 ? game?.awaySnapshot.team.name + "+" + -h.toFixed(1) :
-        game?.awaySnapshot.team.name + h.toFixed(1);
+        game?.awaySnapshot.team.name + (-h).toFixed(1);
       svg.append("g")
         .append("text")
         .attr("class", "sprd-line")
         .attr("x", x(pts[1].x))
         .attr("y", y(pts[1].y))
         .attr("text-anchor", "end")
-        .attr("alignment-baseline", "hanging")
-        .attr("dy", "+.3em")
+        .attr("alignment-baseline", "alphabetic")
+        .attr("dy", "-.3em")
         .attr("dx", "-2em")
         .attr("transform", "rotate(-45, " + x(pts[1].x) + "," + y(pts[1].y) + ")")
         .style("font-family", "Roboto")
@@ -316,7 +316,8 @@ export class Head2headplotComponent {
         .text(aSpreadTxt);
     }
 
-    function spreadLineDef(spread: number, range: { min: number, max: number }) {
+    function spreadLineDef(zzz: number, range: { min: number, max: number }) {
+      var spread = -zzz;
       if (spread < 0) {
         return [{ x: range.min, y: range.min - spread }, { x: range.max + spread, y: range.max }];
       } else {
@@ -336,7 +337,38 @@ export class Head2headplotComponent {
           .attr("y1", y(pts[0].y))
           .attr("y2", y(pts[1].y))
           .attr("stroke", "black");
+
+        svg.append("g")
+          .append("text")
+          .attr("class", "ou-line")
+          .attr("x", x(pts[0].x))
+          .attr("y", y(pts[0].y))
+          .attr("text-anchor", "start")
+          .attr("alignment-baseline", "alphabetic")
+          .attr("dy", "-0.3em")
+          .attr("dx", "+2em")
+          .attr("transform", "rotate(45, " + x(pts[0].x) + "," + y(pts[0].y) + ")")
+          .style("font-family", "Roboto")
+          .style("font-size", "10px")
+          .style("font-weight", "400")
+          .text("Over " + k.toFixed(1));
+        svg.append("g")
+          .append("text")
+          .attr("class", "ou-line")
+          .attr("x", x(pts[0].x))
+          .attr("y", y(pts[0].y))
+          .attr("text-anchor", "start")
+          .attr("alignment-baseline", "alphabetic")
+          .attr("dy", "+1.0em")
+          .attr("dx", "+2em")
+          .attr("transform", "rotate(45, " + x(pts[0].x) + "," + y(pts[0].y) + ")")
+          .style("font-family", "Roboto")
+          .style("font-size", "10px")
+          .style("font-weight", "400")
+          .text("Under " + k.toFixed(1));
       }
+
+
 
       function ouLineDef(overUnder: number, range: { min: number, max: number }) {
         if (overUnder <= range.max + range.min) {
